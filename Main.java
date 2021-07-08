@@ -17,6 +17,6 @@ public class Main {
         lcpnParser parser = new lcpnParser(new CommonTokenStream(lexer));
         ParseTree tree = parser.lcpn();
         BuildLCPN visitor = new BuildLCPN();
-        visitor.visitLcpn(tree);
+        visitor.visit(tree);
     }
 }
