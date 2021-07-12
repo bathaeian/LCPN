@@ -2,6 +2,12 @@
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 import org.jdom2.JDOMException;
 import java.io.IOException;
+import java.util.Set;
+import java.util.HashSet;
+
+      
+
+    
 /**
  * This class provides an empty implementation of {@link lcpnVisitor},
  * which can be extended to create a visitor which only needs to handle a subset
@@ -17,8 +23,12 @@ public class BuildLCPN<T> extends lcpnBaseVisitor<T> {
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
+	private int rn;
 	AutoCPN theLCPN;
+	Set elements;
 	@Override public T visitLcpn(lcpnParser.LcpnContext ctx) { 
+		rn=0;
+		elements = new HashSet();
 		try{
 			theLCPN=new AutoCPN();
 			visitChildren(ctx); 
@@ -38,14 +48,23 @@ public class BuildLCPN<T> extends lcpnBaseVisitor<T> {
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitRung(lcpnParser.RungContext ctx) { return visitChildren(ctx); }
+	@Override public T visitRung(lcpnParser.RungContext ctx) { 
+		rn++;
+		theLCPN.addPlace("r"+rn);
+		theLCPN.addPlace("rp"+rn);
+		theLCPN.addTrans("t"+rn);
+		theLCPN.addTrans("tp"+rn);
+
+		return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitLeft(lcpnParser.LeftContext ctx) { return visitChildren(ctx); }
+	@Override public T visitLeft(lcpnParser.LeftContext ctx) { 
+		
+		return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -67,14 +86,28 @@ public class BuildLCPN<T> extends lcpnBaseVisitor<T> {
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitOpright(lcpnParser.OprightContext ctx) { return visitChildren(ctx); }
+	
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitOperand(lcpnParser.OperandContext ctx) { 
-		theLCPN.addPlace(ctx.getText());
+	@Override public T visitInput(lcpnParser.InputContext ctx) { 
+		if(!elements.contains(ctx.getText())){
+        	elements.add(ctx.getText());
+			theLCPN.addPlace(ctx.getText());
+			if(ctx.COIL()!=null)	theLCPN.addPlace(ctx.getText()+"p");
+			if(ctx.BIT()!=null)	theLCPN.addPlace(ctx.getText()+"p");
+		}
 		
-		return visitChildren(ctx); }
+		return visitChildren(ctx); 
+	}
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitOutput(lcpnParser.OutputContext ctx) { return visitChildren(ctx); }
 }
