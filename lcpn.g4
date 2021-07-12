@@ -1,0 +1,16 @@
+grammar lcpn;		
+lcpn:	(rung NEWLINE)* ;
+rung:	left left* right;
+left: opleft input NEWLINE;
+right: opright output;
+opleft: 'LD'|'LDI'|'AND'|'ANI'|'OR';
+opright: 'SET' | 'RST' | 'OUT';
+input: CONTACT | COIL | BIT | TIMER;
+output: COIL | BIT | TIMER;
+CONTACT:'X'INT;
+COIL:'Y'INT;
+BIT:'M'INT;
+TIMER:'T'INT|'C'INT;
+NEWLINE : [\n]+ ;
+INT     : [0-9]+ ;
+WHITESPACE: [ \r\t] -> skip;
