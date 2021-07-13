@@ -54,7 +54,12 @@ public class BuildLCPN<T> extends lcpnBaseVisitor<T> {
 		theLCPN.addPlace("rp"+rn);
 		theLCPN.addTrans("t"+rn);
 		theLCPN.addTrans("tp"+rn);
-
+		theLCPN.addArc(false, "tp"+rn,"rp"+rn,"r");
+		theLCPN.addArc(false, "t"+rn,"r"+rn,"r");
+		if(rn>1){
+			theLCPN.addArc(true, "tp"+(rn-1),"rp"+rn,"r");
+			theLCPN.addArc(true, "t"+(rn-1),"r"+rn,"r");
+		}
 		return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
@@ -94,14 +99,22 @@ public class BuildLCPN<T> extends lcpnBaseVisitor<T> {
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitInput(lcpnParser.InputContext ctx) { 
-		if(!elements.contains(ctx.getText())){
-        	elements.add(ctx.getText());
-			theLCPN.addPlace(ctx.getText());
-			if(ctx.COIL()!=null)	theLCPN.addPlace(ctx.getText()+"p");
-			if(ctx.BIT()!=null)	theLCPN.addPlace(ctx.getText()+"p");
+		String inp= new String(ctx.getText());
+		String inpMirror= new String(inp);
+		if(ctx.COIL()!=null || ctx.BIT()!=null){
+				inpMirror=inpMirror+"p";
 		}
-		
-		return visitChildren(ctx); 
+		if(!elements.contains(inp)){
+        	elements.add(inp);
+			theLCPN.addPlace(inp);
+			if(ctx.COIL()!=null || ctx.BIT()!=null){
+				theLCPN.addPlace(inpMirror);
+			}	
+		}
+		theLCPN.addArc(false, "tp"+rn,inpMirror,inpMirror);
+		theLCPN.addArc(false, "t"+rn,inp,inp);
+		return visitChildren(ctx); 		
+
 	}
 	/**
 	 * {@inheritDoc}
@@ -109,5 +122,22 @@ public class BuildLCPN<T> extends lcpnBaseVisitor<T> {
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitOutput(lcpnParser.OutputContext ctx) { return visitChildren(ctx); }
+	@Override public T visitOutput(lcpnParser.OutputContext ctx) { 
+		String inp= new String(ctx.getText());
+		String inpMirror= new String(inp);
+		if(ctx.COIL()!=null || ctx.BIT()!=null){
+				inpMirror=inpMirror+"p";
+		}
+		if(!elements.contains(inp)){
+        	elements.add(inp);
+			theLCPN.addPlace(inp);
+			if(ctx.COIL()!=null || ctx.BIT()!=null){
+				theLCPN.addPlace(inpMirror);
+			}	
+		}
+		theLCPN.addArc(true, "tp"+rn,inp,inp);
+		theLCPN.addArc(false, "tp"+rn,inp,inp);
+		theLCPN.addArc(true, "t"+rn,inpMirror,inpMirror);
+		theLCPN.addArc(false, "t"+rn,inpMirror,inpMirror);
+		return visitChildren(ctx); }
 }

@@ -18,11 +18,12 @@ public class AutoCPN{
 	private Element page;
     private float posattrx, posattry;
     private int lastID;
+    private Element cpnet;
     AutoCPN()throws JDOMException{
-        lastID=0;
+        lastID=100;
         doc = getSAXParsedDocument("1.cpn");
         Element rootNode = doc.getRootElement();
-        Element cpnet = rootNode.getChild("cpnet");
+        cpnet = rootNode.getChild("cpnet");
         page = cpnet.getChild("page");
         posattrx=posattry=100;  
     }
@@ -48,17 +49,24 @@ public class AutoCPN{
 
     //orientation==> true:TtoP   false:PtoT
     public void addArc(Boolean orientation, String transendID, String placeendID, String annotText){
-        Element arc = new Element("arc").setAttribute("id", getNewID());
+        String id6=getNewID();
+        Element arc = new Element("arc").setAttribute("id",id6 );
         if(orientation) arc.setAttribute("orientation","TtoP");
         else arc.setAttribute("orientation","PtoT");
-        arc.addContent(new Element("placeend").setAttribute("id", placeendID));
-        arc.addContent(new Element("transend").setAttribute("id", transendID));
-        Element annot= new Element("aannot").setAttribute("id", getNewID());
+        arc.addContent(new Element("placeend").setAttribute("idref", placeendID));
+        arc.addContent(new Element("transend").setAttribute("idref", transendID));
+        id6=getNewID();
+        Element annot= new Element("annot").setAttribute("id", id6);
 		annot.addContent(new Element("text").setText(annotText));
         arc.addContent(annot);
 		page.addContent(arc);
     }
 
+     public void addVar(){
+         Element globbox= cpnet.getChild("globbox");
+         Element block1 = globbox.getChildren("block").get(1);
+         
+     }
     public void writeCPN(OutputStream output) throws IOException {
         XMLOutputter xmlOutputter = new XMLOutputter();
         // change xml encoding
