@@ -10,7 +10,7 @@ fun substringAll(s1, s2 )=
    
 val hm= ListHomeMarkings();
 val start1="r1:1 1`true";
-val start2="r1p:1 1`true"
+val start2="r1p:1 1`true";
 fun isStartScan(n)=(substringAll(start1 ,(NodeDescriptor n))) orelse 
             (substringAll(start2, (NodeDescriptor n)));
 fun findStartScan(nil)=[]
