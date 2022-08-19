@@ -16,9 +16,10 @@ fun substring s1 s2 =
    end
    
 val hm= ListHomeMarkings()
-fun startscan(n)=(substring (NodeDescriptor n) "r1:1 1'true") orelse (substring (NodeDescriptor n) "rp1:1 1'true");
+fun isStartScan(n)=(substring (NodeDescriptor n) "r1:1 1'true") orelse (substring (NodeDescriptor n) "rp1:1 1'true");
+fun findStartScan(nil)=[]
+    |findStartScan(x::y)=if isStartScan(x) then x::findStartScan(y);
+val ss= findStartScan(hm);
 
-
-NodeDescriptor 7
 st_Mark.t'r1 1 10
 
