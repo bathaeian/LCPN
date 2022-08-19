@@ -1,9 +1,6 @@
-fun substringAll(s1, s2 )=
+fun substringAll(s1, s2, l1,l2 )=
    let
-     val l1 = size s1;
-     val l2 = size s2;
-
-     fun substringat( s1 ,s2 ,i) =
+       fun substringat( s1 ,s2 ,i) =
        if l1 + i > l2 then false
        else substring (s2, i, l1) = s1;
 
