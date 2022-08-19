@@ -9,13 +9,11 @@ fun substringAll(s1, s2 )=
         substringfrom( s1,s2,String.size(s2) - 1);
    
 val hm= ListHomeMarkings();
-val start1="r1:1 1`true";
-val start2="r1p:1 1`true";
+val start1="r1 1: 1`true";
+val start2="r1p 1: 1`true";
 fun isStartScan(n)=(substringAll(start1 ,(NodeDescriptor n))) orelse 
             (substringAll(start2, (NodeDescriptor n)));
 fun findStartScan(nil)=[]
     |findStartScan(x::y)=if isStartScan(x) then x::findStartScan(y) else findStartScan(y);
 val ss= findStartScan(hm);
-
-st_Mark.t'r1 1 10
 
