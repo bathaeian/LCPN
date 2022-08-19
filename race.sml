@@ -6,8 +6,7 @@ fun substringfrom( s1 ,s2, i) =
        else if substringat(s1 ,s2 ,i) then true
        else substringfrom( s1 ,s2 ,i - 1);
 fun substringAll(s1, s2 )=
-        substringfrom( s1,s2,String.size(s2) - 1)
-   end;
+        substringfrom( s1,s2,String.size(s2) - 1);
    
 val hm= ListHomeMarkings();
 val start1="r1:1 1`true";
