@@ -19,7 +19,7 @@ val hm= ListHomeMarkings();
 fun isStartScan(n)=(substring( (NodeDescriptor n), "r1:1 1`true") orelse 
             (substring( (NodeDescriptor n) ,"rp1:1 1'true");
 fun findStartScan(nil)=[]
-    |findStartScan(x::y)=if isStartScan(x) then x::findStartScan(y);
+    |findStartScan(x::y)=if isStartScan(x) then x::findStartScan(y) else findStartScan(y);
 val ss= findStartScan(hm);
 
 st_Mark.t'r1 1 10
