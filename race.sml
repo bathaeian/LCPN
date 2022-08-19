@@ -18,10 +18,10 @@ fun findStartScan(nil)=[]
 val ss= findStartScan(hm);
 fun races(nil,p1,p2)=[]
   | races(x::y,p1,p2)=if(substringAll(p1^" 1: 1`true" ,(NodeDescriptor x))
-                      andalso substringAll(p2^" 1: 1`true" ,(NodeDescriptor x))
+                      andalso substringAll(p2^" 1: 1`false" ,(NodeDescriptor x))
                       ) orelse 
             (substringAll(p1^" 1: 1`false" ,(NodeDescriptor x))
-                      andalso substringAll(p2^" 1: 1`false" ,(NodeDescriptor x))
+                      andalso substringAll(p2^" 1: 1`true" ,(NodeDescriptor x))
                       ) then x::races(y,p1,p2)
    else races(y,p1,p2);
    
