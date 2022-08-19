@@ -5,7 +5,7 @@ fun substringAll(s1, s2 )=
 
      fun substringat( s1 ,s2 ,i) =
        if l1 + i > l2 then false
-       else String.substring (s2, i, l1) = s1;
+       else substring (s2, i, l1) = s1;
 
      fun substringfrom( s1 ,s2, i) =
        if i < 0 then false
