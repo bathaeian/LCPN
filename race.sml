@@ -26,4 +26,10 @@ fun races(nil,p1,p2)=[]
    else races(y,p1,p2);
    
    val racevars=races(ss,"Y_y3", "Yp_y3");
-
+val SccNo=SccNoOfNodes();
+fun HomeSpaces(0)=[]
+    |HomeSpaces(n)=if SccTerminal(n*-1) then n::HomeSpaces(n-1) else HomeSpaces(n-1);
+val homespaces=HomeSpaces(SccNo);
+fun raceHomeSpaces(nil,p1,p2)=[]
+  | raceHomeSpaces(x::y,p1,p2)=races(SccToNodes(x),p1,p2)::raceHomeSpaces(y,p1,p2);
+val  races2=raceHomeSpaces(homespaces,"Y_y3","Yp_y3");
